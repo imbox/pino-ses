@@ -6,6 +6,7 @@ const split = require('split2')
 const { pipeline, Transform } = require('stream')
 
 args
+  .option('env', 'send email for specific NODE_ENV')
   .option('to', 'Email recipient')
   .option('from', 'Email sender')
   .option('subject', 'Email subject')
@@ -86,4 +87,10 @@ function createBody (obj) {
   return str
 }
 
-pipeline(process.stdin, split(), transport, process.stdout, () => {})
+function noop () {}
+
+if (!opts.env || opts.env === process.env.NODE_ENV) {
+  pipeline(process.stdin, split(), transport, process.stdout, noop)
+} else {
+  pipeline(process.stdin, process.stdout, noop)
+}
