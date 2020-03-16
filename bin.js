@@ -59,10 +59,7 @@ function sendEmail (obj, cb) {
 }
 
 function createSubject (obj) {
-  let str = '[FATAL] '
-  if (opts.name) {
-    str += `${opts.name} `
-  }
+  let str = `[FATAL] ${obj.name}`
   if (obj.ip) {
     str += `on ${obj.ip}`
   } else {
@@ -72,9 +69,8 @@ function createSubject (obj) {
 }
 
 function createBody (obj) {
-  let str = ''
-  if (opts.name) str += `* name: ${opts.name}\n`
-  str +=
+  let str =
+    `* name: ${obj.name}\n` +
     `* hostname: ${obj.hostname}\n` +
     `* pid: ${obj.pid}\n` +
     `* time: ${new Date(obj.time).toISOString()}\n`
