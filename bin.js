@@ -61,9 +61,9 @@ function sendEmail (obj, cb) {
 function createSubject (obj) {
   let str = `[FATAL] ${obj.name}`
   if (obj.ip) {
-    str += `on ${obj.ip}`
+    str += ` on ${obj.ip}`
   } else {
-    str += `on ${obj.hostname}`
+    str += ` on ${obj.hostname}`
   }
   return str
 }
