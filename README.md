@@ -1,12 +1,7 @@
 # pino-ses
-Send email via AWS SES on fatal errors
+Pino plugin to send email to AWS SES
 
 ## Installation
 ```bash
 $ npm install pino-ses
-```
-
-## Usage
-```bash
-$ node program.js | pino-ses
 ```

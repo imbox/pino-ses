@@ -1,0 +1,19 @@
+
+{
+  "root": true,
+  "plugins": [],
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "rules": {
+    "no-unused-vars": ["error", {"args": "all", "argsIgnorePattern": "^_"}]
+  }
+}
+
