@@ -1,8 +1,8 @@
-const assert = require('assert')
-const build = require('pino-abstract-transport')
-const aws = require('@aws-sdk/client-ses')
-const { defaultProvider } = require('@aws-sdk/credential-provider-node')
+'use strict'
+const { SESv2Client, SendEmailCommand } = require('@aws-sdk/client-sesv2')
+const assert = require('node:assert')
 const nodemailer = require('nodemailer')
+const build = require('pino-abstract-transport')
 
 const LEVELS = {
   default: 'USERLVL',
@@ -43,39 +43,29 @@ module.exports = opts => {
   assert(opts.to, 'to required')
   assert(opts.from, 'from required')
 
-  const sesOptions = {
-    apiVersion: '2010-12-01',
-    region: opts.region || 'eu-west-1'
-  }
-
-  if (opts.accessKeyId) {
-    sesOptions.accessKeyId = opts.accessKeyId
-    sesOptions.secretAccessKey = opts.secretAccessKey
-  } else {
-    sesOptions.defaultProvider = defaultProvider
-  }
-
   const emailTransport = nodemailer.createTransport({
     SES: {
-      ses: new aws.SES(sesOptions),
-      aws
+      sesClient: new SESv2Client({
+        accessKeyId: opts.accessKeyId,
+        secretAccessKey: opts.secretAccessKey,
+        region: opts.region || 'eu-west-1'
+      }),
+      SendEmailCommand
     }
   })
 
   return build(async function (source) {
-    for await (let obj of source) {
-      console.log('send something!', obj)
+    for await (const obj of source) {
       try {
-      await emailTransport.sendMail({
-        to: opts.to,
-        from: opts.from,
-        subject: opts.subject || createSubject(obj),
-        text: createBody(obj)
-      })
-    } catch (err) {
-      console.log('err', err)
-    }
-      console.log('email sent!')
+        await emailTransport.sendMail({
+          to: opts.to,
+          from: opts.from,
+          subject: opts.subject || createSubject(obj),
+          text: createBody(obj)
+        })
+      } catch (err) {
+        console.error(err)
+      }
     }
   })
 }
