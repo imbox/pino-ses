@@ -1,6 +1,6 @@
 {
   "name": "pino-ses",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Send email via AWS SES on fatal errors",
   "main": "pino-ses.js",
   "engines": {
