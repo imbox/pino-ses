@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/imbox/pino-ses",
   "dependencies": {
-    "@aws-sdk/client-sesv2": "^3.1125.0",
-    "nodemailer": "^9.1.1",
+    "@aws-sdk/client-sesv2": "^3.1126.0",
+    "nodemailer": "^10.0.0",
     "pino-abstract-transport": "^3.0.0"
   },
   "devDependencies": {
